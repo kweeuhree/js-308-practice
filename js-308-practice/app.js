@@ -11,9 +11,11 @@ let johnHeightM;
 
 // Compare their BMI - Variation 1 - BMI = mass / height ** 2
 function compareBmiVariation1(markWeightKg, markHeightM, johnWeightKg, johnHeightM) {
+    // Initialize a variable to store a boolean determining whether Mark has a higher BMI
+    let isMarkHigherBmi;
+
     const bmiMark = (markWeightKg / markHeightM ** 2).toFixed(2);
     const bmiJohn =  (johnWeightKg / johnHeightM ** 2).toFixed(2);
-    let isMarkHigherBmi;
 
     // Add a well-formatted output checking whether Marks BMI is higher 
     if(bmiMark > bmiJohn) {
@@ -81,10 +83,12 @@ console.log('-------------------------------------------------------------------
 
 function determineWinnerMin100(teamScore1, teamName1, teamScore2, teamName2) {
 
+    // initialize a variable to store the amount of games each team won
     let teamWins1 = 0;  
     let teamWins2 = 0; 
 
-    // loop through scores and compare each by each
+    // loop through scores and compare each by each considering a minimum score of 100 
+    // for each game
     for (let i = 0; i < teamScore1.length; i++) {
         if (teamScore1[i] > 100 && teamScore1[i] > teamScore2[i]) {
             teamWins1 += 1;
@@ -109,12 +113,16 @@ console.log('-------------------------------------------------------------------
 
 // Challenge 3 Bonus 2 - include a minimum score requirement for a draw
 
+//Declare and define a function that will compare scores each by each and consider
+// a minimum score of 100 points
 function determineWinnerMinDraw(teamScore1, teamName1, teamScore2, teamName2) {
 
+    // initialize a variable to store the amount of games each team won
     let teamWins1 = 0;  
     let teamWins2 = 0; 
 
-    // loop through scores and compare each by each
+    // loop through scores and compare each by each considering a minimum score of 100 
+    // and matching scores
     for (let i = 0; i < teamScore1.length; i++) {
         if (teamScore1[i] > 100 && teamScore1[i] === teamScore2[i]) {
             teamWins1 += 1;
@@ -136,3 +144,34 @@ function determineWinnerMinDraw(teamScore1, teamName1, teamScore2, teamName2) {
 console.log('---Challenge 3 Bonus 2:----------------------------------------------------')
 determineWinnerMinDraw([97, 112, 101], 'Dolphines', [109, 95, 106], 'Koalas');
 console.log('---------------------------------------------------------------------------')
+
+// ------------------------------------------------------------------------------------------
+// Challenge 4, Steven builds a calculator
+
+// Create a variable called 'tip', and then calculate the tip depending on the bill value
+// Use a ternary operator
+function calculateTip(billValue) {
+    let tip; // initialize tip
+    let total; // initialize a variable to store total bill value
+    let result; // initialize a variable to store output result
+
+    billValue >= 50 && billValue <= 300 ? tip = 15 : tip = 20; // calculate tip based on bill value
+
+    total = (tip/100) * billValue + billValue; // calculate total bill value
+
+    //define output
+    result = `
+            Bill total: ${billValue.toFixed(2)} $\n 
+            Tip: ${tip}%\n
+            Total value: ${total.toFixed(2)} $`;
+
+    console.log(result);
+    console.log('-----------------------------')
+}
+
+console.log('---Challenge 4:------------------------------------------------------------')
+calculateTip(275);
+calculateTip(40);
+calculateTip(430);
+console.log('---------------------------------------------------------------------------')
+
