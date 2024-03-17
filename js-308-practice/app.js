@@ -1,4 +1,56 @@
 // ------------------------------------------------------------------------------------------
+// Validation form
+
+function submitForm(event) {
+    event.preventDefault();
+
+    let userName = document.getElementById('name');
+    let userEmail = document.getElementById('email');
+
+    if (userName.value === '') {
+        alert('Please, enter user name');
+        return;
+    }
+
+    if (userEmail.value === '') {
+        alert('Please, enter user email');
+        return;
+    }
+
+    // if we have both name and email, add both to storage and clear input fields
+    if(userName && userEmail) {
+        addToStorage(userName.value, userEmail.value);
+        userName.value = '';
+        userEmail.value = '';
+    } else {
+        error('There is an error with either user name or user email');
+    }
+}
+
+function addToStorage(userName, userEmail) {
+    
+
+    localStorage.setItem('userName', userName.value);
+    localStorage.setItem('userEmail', userEmail.value);
+
+    // Create new list item with user
+    let ul = document.getElementById('ul'); 
+    let li = document.createElement('li');
+
+     // Add HTML
+    li.innerHTML = `<strong>${userName}</strong>: ${userEmail}`;
+    ul.appendChild(li);
+   }
+
+function showRegisteredUsers() {
+    const collapsible = document.querySelector('.collapsible-users');
+
+    let collapsibleStyle = window.getComputedStyle(collapsible);
+
+    collapsibleStyle.display === 'none' ? collapsible.style.display = 'block': collapsible.style.display = 'none';
+}
+
+// ------------------------------------------------------------------------------------------
 // Challenge 1 && 2, Mark and John are trying to compare their BMI 
 
 //Initialize height and weight for Mark
@@ -169,9 +221,9 @@ function calculateTip(billValue) {
     console.log('-----------------------------')
 }
 
-console.log('---Challenge 4:------------------------------------------------------------')
+console.log('---Challenge 4:------------------------------------------------------------');
 calculateTip(275);
 calculateTip(40);
 calculateTip(430);
-console.log('---------------------------------------------------------------------------')
+console.log('---------------------------------------------------------------------------');
 
