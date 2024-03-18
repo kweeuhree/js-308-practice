@@ -1,5 +1,57 @@
 // ------------------------------------------------------------------------------------------
 // Validation form
+class User {
+    static latestId = 0; // Static variable to store the latest id value
+    static allIds = []; // Static array to store all the IDs
+
+    constructor(name, email) {
+        this.name = name;
+        this.email = email;
+        this.id = User.incrementId();
+        
+    }
+    static incrementId() {
+        // console.log(`${User.latestId}`);
+        User.latestId = User.latestId + 1;
+        // console.log(`${User.latestId}`);
+        User.allIds.push(User.latestId); // Add the ID to the array
+        // console.log(`All IDs inside incrementId(): ${User.getAllIds()}`)
+        return User.latestId; 
+    }
+
+    static getAllIds() {
+        return User.allIds; // Return the array of all IDs
+    }
+
+    getId() {
+        return this.id;
+    }
+    getName() {
+            return this.name;
+        }
+    getEmail() {
+            return this.email;
+        }
+    }
+
+window.onload = displayStoredData;
+
+function displayStoredData() {
+    let allIds = User.getAllIds();
+    console.log(`All IDs: ${allIds}`)
+    allIds.forEach((id) => {
+        console.log(`this user id is ${id}`)
+        let userDetails = JSON.parse(localStorage.getItem(id));
+        if (userDetails) {
+            let userName = userDetails[0];
+            let userEmail = userDetails[1];
+            let ul = document.getElementById('ul');
+            let li = document.createElement('li');
+            li.innerHTML = `<strong>${userName}</strong>: ${userEmail}`;
+            ul.appendChild(li);
+        }
+    })
+}
 
 function submitForm(event) {
     event.preventDefault();
@@ -19,7 +71,8 @@ function submitForm(event) {
 
     // if we have both name and email, add both to storage and clear input fields
     if(userName && userEmail) {
-        addToStorage(userName.value, userEmail.value);
+        let user = new User(userName.value, userEmail.value);
+        addToStorage(user);
         userName.value = '';
         userEmail.value = '';
     } else {
@@ -27,24 +80,25 @@ function submitForm(event) {
     }
 }
 
-function addToStorage(userName, userEmail) {
-    
+//Store user name and user email in local storage
+function addToStorage(user) {
+    let userId = user.getId();
+    let userDetails = [user.getName(), user.getEmail()]
+    // set user name and user email to store locally
+    localStorage.setItem(userId, JSON.stringify(userDetails));
 
-    localStorage.setItem('userName', userName.value);
-    localStorage.setItem('userEmail', userEmail.value);
-
-    // Create new list item with user
+    // create new list item in unordered list
     let ul = document.getElementById('ul'); 
     let li = document.createElement('li');
 
-     // Add HTML
-    li.innerHTML = `<strong>${userName}</strong>: ${userEmail}`;
+     // add inner HTML and append to the list
+    li.innerHTML = `<strong>${user.getName()}</strong>: ${user.getEmail()}`;
     ul.appendChild(li);
    }
 
+// Open or close the hidden list with registered users
 function showRegisteredUsers() {
     const collapsible = document.querySelector('.collapsible-users');
-
     let collapsibleStyle = window.getComputedStyle(collapsible);
 
     collapsibleStyle.display === 'none' ? collapsible.style.display = 'block': collapsible.style.display = 'none';
